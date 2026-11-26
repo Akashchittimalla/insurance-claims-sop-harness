@@ -1,6 +1,9 @@
 # Private configuration and credentials
+# Backend and Compose read the root .env. Next.js reads frontend/.env.local.
 .env
 .env.*
+.envrc
+*.env
 !.env.example
 !.env.*.example
 .npmrc
