@@ -1,0 +1,10 @@
+transitions:
+  - source: VERIFY_ID
+    target: RESOLVE_INTENT
+    guards: [identity_verified]
+  - source: RESOLVE_INTENT
+    target: PROCESS_CASE
+    guards: [intent_resolved]
+  - source: PROCESS_CASE
+    target: POST_PROCESS
+    guards: [case_processed]

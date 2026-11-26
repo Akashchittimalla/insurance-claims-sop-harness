@@ -1,0 +1,54 @@
+# Private configuration and credentials
+.env
+.env.*
+!.env.example
+!.env.*.example
+.npmrc
+.pypirc
+.netrc
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Python
+.venv*/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Generated frontend and test output
+node_modules/
+.next/
+/frontend/next-env.d.ts
+/frontend/out/
+*.tsbuildinfo
+playwright-report/
+test-results/
+coverage/
+/build/
+/data/
+/dist/
+
+# Local data
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+
+# Local logs and workstation files
+*.log
+logs/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

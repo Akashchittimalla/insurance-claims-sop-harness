@@ -1,0 +1,9 @@
+{
+  "mode": "configured",
+  "dataset": "insurance-sop-v1",
+  "dataset_sha256": "5250ccc3b1df16c34557d67250111bd069eab03f3ab99a5b6cddea78d3568cc0",
+  "executed_at_utc": "2026-11-26T20:51:00.852802+00:00",
+  "scenario_clock": "2026-11-26T18:00:00+00:00",
+  "status": "NOT_EXECUTED",
+  "reason": "A configured real provider, model and credential are required"
+}

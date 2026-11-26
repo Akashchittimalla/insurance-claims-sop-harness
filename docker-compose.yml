@@ -1,0 +1,59 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: sqlite:////app/data/insurance.db
+      DEMO_MODE: "true"
+      EMAIL_MODE: ${EMAIL_MODE:-mock}
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      DEMO_DIAGNOSTICS_KEY: ${DEMO_DIAGNOSTICS_KEY:-}
+    volumes:
+      - insurance_data:/app/data
+    networks: [claims]
+    read_only: true
+    tmpfs: ["/tmp"]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:8000/ready', timeout=3).close()"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+  frontend:
+    build:
+      context: frontend
+    environment:
+      BACKEND_API_URL: http://backend:8000
+      DEMO_DIAGNOSTICS_KEY: ${DEMO_DIAGNOSTICS_KEY:-}
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks: [claims]
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-3000}:3000"
+    init: true
+    read_only: true
+    tmpfs: ["/tmp"]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/', {signal: AbortSignal.timeout(3000)}).then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+networks:
+  claims:
+    driver: bridge
+volumes:
+  insurance_data:
