@@ -1,5 +1,7 @@
 # Submission checklist
 
+**Latest verification.** The documented synthetic demo passed both Docker and live-model checks. With `gemini-3.1-flash-lite`, `MAX_REASONING_ITERATIONS=1`, a 6.2-second minimum request interval, one retry, and a 15-second timeout, 20 of 20 live scenarios passed. The backend suite passed 109 tests with three opt-in live skips. Mock evaluation passed 20 of 20 and both Docker smoke branches passed on the same code. Earlier results below record historical runs. [Final live report](../evaluation/reports/gemini_live_final_status.json)
+
 **READY_WITH_LIMITATIONS** for a native synthetic demo, verified on 2026-11-26. Phase 9 stays open because Docker runtime and configured-model evidence are mandatory.
 
 | Acceptance check | Status | Evidence |

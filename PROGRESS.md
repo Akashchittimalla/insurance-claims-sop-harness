@@ -2,6 +2,8 @@
 
 ## Audit snapshot
 
+**Latest submission verification.** The corrected Gemini Flash-Lite configuration passed 20 of 20 live synthetic scenarios using one model analysis pass per turn and deterministic rendering. The provider received requests at least 6.2 seconds apart, with one allowed retry and a 15-second timeout. The report recorded 47 HTTP 200 responses and four retryable HTTP 503 responses. Backend regression passed 109 tests with three opt-in live skips, mock evaluation passed 20 of 20, and the pushed code passed a fresh Docker build and both mock consent paths. Earlier readiness entries are historical. See the [final live report](evaluation/reports/gemini_live_final_status.json).
+
 Gemini diagnostics reproduced intermittent provider timeouts and retryable failures. The follow-up keeps an existing supported claim intent when the model proposes `UNKNOWN` and routes explicit representative callers to human review through the trusted workflow without calling the model. Regression coverage verifies both behaviors.
 
 Explicit status wording now resolves an ambiguous owned claim even when the model omits the status. Verification refusal counts use explicit customer text, which preserves alternative identity options after model-only refusal proposals. The live ambiguity scenario passed after the status fix. The latest backend suite passed 109 tests with three opt-in live tests skipped.

@@ -76,9 +76,12 @@ For Gemini, set these values in the root `.env` and use your Google AI Studio ke
 LLM_PROVIDER=gemini
 LLM_MODEL=gemini-3.1-flash-lite
 LLM_API_KEY=your-gemini-api-key
+MAX_REASONING_ITERATIONS=1
 ```
 
 The adapter uses [Google’s Chat Completions endpoint](https://ai.google.dev/gemini-api/docs/openai), requests schema-constrained JSON, and validates the returned data against the backend’s existing Pydantic proposals.
+
+This configuration uses Gemini for turn analysis and the backend for evidence rendering. The paced verification run passed all 20 synthetic scenarios. See the [live report](evaluation/reports/gemini_live_final_status.json).
 
 ## Demo walkthrough
 
