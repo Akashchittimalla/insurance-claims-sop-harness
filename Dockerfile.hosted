@@ -1,0 +1,24 @@
+FROM node:24-bookworm-slim AS frontend
+WORKDIR /build/frontend
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY frontend/ .
+RUN npm run build
+
+FROM python:3.11-slim-bookworm
+WORKDIR /app
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 NODE_ENV=production NEXT_TELEMETRY_DISABLED=1
+COPY requirements.runtime.lock .
+RUN python -m pip install --no-cache-dir --only-binary=:all: -r requirements.runtime.lock \
+    && groupadd --system --gid 10001 claims \
+    && useradd --system --uid 10001 --gid claims --no-create-home claims \
+    && install -d -o claims -g claims -m 0700 /app/data
+COPY --from=frontend /usr/local/bin/node /usr/local/bin/node
+COPY --from=frontend /build/frontend/.next/standalone ./web
+COPY --from=frontend /build/frontend/.next/static ./web/.next/static
+COPY apps/insurance_claims ./apps/insurance_claims
+COPY scripts/run_hosted_demo.py ./run_hosted_demo.py
+USER 10001:10001
+EXPOSE 10000
+CMD ["python", "run_hosted_demo.py"]

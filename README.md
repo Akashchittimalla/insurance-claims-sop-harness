@@ -43,6 +43,8 @@ The Compose commands are the same in PowerShell and Bash. For the native setup o
 
 ## Run locally
 
+For an optional hosted evaluator demo, see the [Render deployment setup](docs/DEPLOYMENT.md#hosted-synthetic-demo-on-render).
+
 From the repository root in PowerShell:
 
 ```powershell

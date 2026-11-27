@@ -38,3 +38,11 @@ On 2026-11-26, Docker Desktop?s Linux engine validated the manifest, built both 
 ## Native fallback
 
 Use [README](../README.md) for PowerShell. On Bash install the backend with `python3 -m venv .venv` and `.venv/bin/python -m pip install -e '.[test]'`. Run `.venv/bin/python -m uvicorn apps.insurance_claims.api:app --no-proxy-headers` and start the frontend with `npm ci && npm run dev` from `frontend/`. Run the smoke command above from the repository root.
+
+## Hosted synthetic demo on Render
+
+Create a Render Blueprint from `render.yaml`, which selects a **Free** Docker Web Service. The equivalent manual settings are the repository root as the build context, `./Dockerfile.hosted` as the Dockerfile path, and `/` as the health check path. Render supplies the frontend port and HTTPS URL. FastAPI listens on container loopback. The hosted launcher uses synthetic fixtures, mock email, mock model responses, and disabled developer diagnostics. Use only synthetic inputs. Keep live-model evaluation on the local backend.
+
+The free instance can sleep after inactivity. SQLite sessions are temporary and reset when the instance stops or redeploys. A cold start can take about a minute. The [Render free plan documentation](https://render.com/docs/free) lists the account limits.
+
+Verify an active deployment with `python scripts/smoke_demo.py --url https://YOUR-SERVICE.onrender.com`. Share the URL only after both consent paths pass.
