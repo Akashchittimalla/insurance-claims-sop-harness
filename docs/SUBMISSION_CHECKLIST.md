@@ -39,7 +39,13 @@ The [Phase 10 independent review](FINAL_REVIEW.md) classifies final submission a
 
 See [deployment](DEPLOYMENT.md) for first-run and stop commands, environment variables, and volume handling. See [SPEC](../SPEC.md) and [progress](../PROGRESS.md) for open business rules, including representative delegation, alternative identity proof, approved recipients, retention and production authentication. A Python advisory scan and broader accessibility and cross-browser validation remain outstanding.
 
+## Docker Desktop verification on 2026-11-26
+
+Compose verification passed in the GitHub checkout using the Linux engine, project `claims-compose-verification`, and loopback port 3011. Both images built with the available cache. Both services became healthy. The full smoke test exited 0 with one simulated send and one decline. After restarting the backend, both services were healthy and SQLite still contained exactly one outcome per disposition. `docker compose down` stopped the test services and preserved the test volume. Earlier entries below and above record the pre-Docker audit. Configured real-model evaluation remains open.
+
 ## Step 11 packaging and verification
+
+The 2026-11-26 Gemini follow-up verified live communication with `gemini-3.1-flash-lite` and passed 8 of 20 scenarios, including Margaret send, skip, and ambiguous consent. The cross-owner and representative scenarios failed their expected flow checks and stayed in verification without a claim or tool calls. Backend regression passed with 105 tests and 3 opt-in live skips. Overall live evaluation remains open. [Measured Gemini evaluation](../evaluation/reports/gemini_live_schema_status.json)
 
 The evaluator ZIP is generated with `python scripts/package_submission.py --output dist/insurance-claims-sop-harness-submission.zip`. It includes backend and frontend source, all six fixtures, Docker configuration, dependency manifests and locks, environment templates, tests, evaluation evidence, and documentation with two synthetic screenshots. Exclusions cover private configuration, Git metadata, dependency directories, caches, SQLite data, logs, and transient browser output.
 

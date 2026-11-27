@@ -8,7 +8,7 @@ import pytest
 
 from apps.insurance_claims.api import create_app
 from apps.insurance_claims.conversation_models import ConversationAnalysis, GroundedResponse, mock_analysis
-from apps.insurance_claims.llm import MockProvider, ModelFailure, OpenAIProvider
+from apps.insurance_claims.llm import GeminiProvider, MockProvider, ModelFailure, OpenAIProvider, create_provider
 from apps.insurance_claims.protected_input import protect
 from apps.insurance_claims.settings import Settings
 
@@ -65,6 +65,86 @@ def test_margaret_redaction_grounding_and_idempotency(tmp_path):
             assert secret not in json.dumps(model_inputs)
             assert secret not in first.json()["response"]
             assert all(secret not in event.model_dump_json(exclude={"event_id", "session_id"}) for event in events)
+
+
+def test_unknown_model_intent_preserves_pending_denial(tmp_path):
+    def model(messages, schema):
+        result = mock_analysis(messages, schema)
+        if schema is ConversationAnalysis and result["primary_intent"] is None:
+            result["primary_intent"] = "UNKNOWN"
+        return result
+
+    app = create_app(settings(tmp_path), MockProvider(model))
+    with TestClient(app) as client:
+        ss = session(client)
+        send(client, ss, "I'm calling about my denied healthcare claim from January.")
+        reply = send(client, ss, IDENTITY, "identity").json()
+        assert reply["phase"] == "PROCESS_CASE"
+        assert "treating provider office note" in reply["response"]
+
+
+def test_explicit_status_correction_resolves_ambiguous_claim(tmp_path):
+    def model(messages, schema):
+        result = mock_analysis(messages, schema)
+        if schema is ConversationAnalysis and "i meant" in messages[-1]["content"]:
+            result["claim_hints"].pop("status", None)
+        return result
+
+    with TestClient(create_app(settings(tmp_path), MockProvider(model))) as client:
+        ss = session(client)
+        assert send(client, ss, IDENTITY).json()["phase"] == "RESOLVE_INTENT"
+        ambiguous = send(client, ss, "What happened to my healthcare claim from January?", "ambiguous").json()
+        assert "More than one claim" in ambiguous["response"]
+        reply = send(client, ss, "I meant the denied healthcare claim, not the dental one.", "correct").json()
+        assert reply["phase"] == "PROCESS_CASE"
+        assert "pathology report" in reply["response"]
+
+
+def test_explicit_opening_status_survives_model_omission(tmp_path):
+    def model(messages, schema):
+        result = mock_analysis(messages, schema)
+        if schema is ConversationAnalysis:
+            result["claim_hints"].pop("status", None)
+        return result
+
+    with TestClient(create_app(settings(tmp_path), MockProvider(model))) as client:
+        ss = session(client)
+        reply = send(client, ss, OPENING).json()
+        assert reply["phase"] == "PROCESS_CASE"
+        assert "pathology report" in reply["response"]
+
+
+def test_model_refusal_proposal_does_not_close_alternative_options(tmp_path):
+    def model(messages, schema):
+        result = mock_analysis(messages, schema)
+        if schema is ConversationAnalysis:
+            result.update(emotion="frustrated", refusal_detected=True)
+        return result
+
+    with TestClient(create_app(settings(tmp_path), MockProvider(model))) as client:
+        ss = session(client)
+        send(client, ss, "I'm Margaret Chen. Tell me why my January healthcare claim was denied.")
+        frustrated = send(client, ss, "This is ridiculous. I've already told you who I am.", "frustrated").json()
+        assert "frustrating" in frustrated["response"]
+        refused = send(client, ss, "I'm not comfortable giving you my Social Security number.", "refused").json()
+        assert "phone number" in refused["response"] and "email address" in refused["response"]
+        assert "pause verification" not in refused["response"]
+
+
+def test_null_proposal_hints_keep_active_claim(tmp_path):
+    def model(messages, schema):
+        result = mock_analysis(messages, schema)
+        if schema is ConversationAnalysis and "specimen" in messages[-1]["content"]:
+            result["claim_hints"] = {"case_type": None, "month": None, "status": None}
+        return result
+
+    app = create_app(settings(tmp_path), MockProvider(model))
+    with TestClient(app) as client:
+        ss = session(client)
+        assert send(client, ss, OPENING).json()["phase"] == "PROCESS_CASE"
+        reply = send(client, ss, "What specimen details should the pathology report contain?", "followup").json()
+        assert "specimen details" in reply["response"]
+        assert send(client, ss, "That's everything.", "finish").json()["phase"] == "POST_PROCESS"
 
 
 def test_partial_identity_refusal_empathy_and_correction(tmp_path):
@@ -226,12 +306,49 @@ def test_openai_http_adapter_protocol():
     assert result.input_tokens == 23
 
 
+@pytest.mark.parametrize("content", ['{"scope":"IN_SCOPE"}', '{"identity_verified":true}'])
+def test_gemini_http_adapter_validates_proposals(content):
+    def response(request):
+        assert str(request.url) == GeminiProvider.endpoint
+        assert request.headers["authorization"] == "Bearer synthetic-test-key"
+        data = json.loads(request.content)
+        assert data["reasoning_effort"] == "low"
+        assert data["max_completion_tokens"] == 1200
+        assert data["response_format"] == {"type": "json_schema", "json_schema": {
+            "name": "ConversationAnalysis", "schema": ConversationAnalysis.model_json_schema(), "strict": True,
+        }}
+        assert "store" not in data
+        return httpx.Response(200, json={
+            "choices": [{"message": {"content": content}, "finish_reason": "stop"}],
+            "usage": {"prompt_tokens": 23, "completion_tokens": 5},
+        })
+
+    config = Settings(_env_file=None, llm_provider="gemini", llm_model="test-model",
+                      llm_api_key="synthetic-test-key")
+    assert isinstance(create_provider(config), GeminiProvider)
+    with httpx.Client(transport=httpx.MockTransport(response)) as client:
+        adapter = GeminiProvider("synthetic-test-key", "test-model", 1, client)
+        if "identity_verified" in content:
+            with pytest.raises(ModelFailure, match="model_output_invalid"):
+                adapter.generate_structured([], ConversationAnalysis, temperature=0, max_tokens=1200)
+        else:
+            result = adapter.generate_structured([], ConversationAnalysis, temperature=0, max_tokens=1200)
+            assert result.value.scope == "IN_SCOPE"
+            assert result.provider == "gemini"
+            assert result.input_tokens == 23
+
+
 def test_representative_is_routed_without_disclosure(tmp_path):
-    with TestClient(create_app(settings(tmp_path))) as client:
+    def unavailable(*args):
+        raise AssertionError("Representative routing must not require a provider call")
+
+    provider = MockProvider(unavailable)
+    with TestClient(create_app(settings(tmp_path), provider)) as client:
         answer = send(client, session(client),
                       "I'm David Chen. I'm calling on behalf of my mother about CL-2048.").json()
         assert answer["session_status"] == "handoff"
         assert "pathology" not in answer["response"]
+        assert provider.calls == 0
 
 
 def test_post_verification_identity_correction_requires_revalidation(tmp_path):
@@ -246,7 +363,7 @@ def test_post_verification_identity_correction_requires_revalidation(tmp_path):
 @pytest.mark.skipif(os.getenv("RUN_REAL_MODEL_EVAL") != "1", reason="live provider evaluation is opt-in")
 def test_real_openai_margaret(tmp_path):
     configured = Settings()
-    if not configured.llm_api_key.get_secret_value() or not configured.llm_model:
+    if configured.llm_provider != "openai" or not configured.llm_api_key.get_secret_value() or not configured.llm_model:
         pytest.skip("OpenAI credentials and model are required")
     app = create_app(settings(tmp_path, llm_provider="openai", llm_model=configured.llm_model,
                               llm_api_key=configured.llm_api_key))

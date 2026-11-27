@@ -1,5 +1,9 @@
 # Architecture Decisions
 
+## Provider transport follow-up
+
+Gemini uses Google’s Chat Completions compatibility endpoint and shares the existing HTTPX transport and Pydantic validation with OpenAI. Each adapter fixes its destination and request options. This avoids a second SDK and keeps provider credentials, untrusted model output, and SOP authorization on their existing boundaries.
+
 These entries are retrospective assessments of the current code. Rationale and alternatives describe trade-offs visible during this audit.
 
 ## ADR-001 SOP authority stays on the backend

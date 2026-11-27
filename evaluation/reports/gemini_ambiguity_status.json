@@ -1,0 +1,202 @@
+{
+  "mode": "configured",
+  "dataset": "insurance-sop-v1",
+  "dataset_sha256": "5250ccc3b1df16c34557d67250111bd069eab03f3ab99a5b6cddea78d3568cc0",
+  "executed_at_utc": "2026-11-27T02:34:08.548587+00:00",
+  "scenario_clock": "2026-11-26T18:00:00+00:00",
+  "provider": "gemini",
+  "model": "gemini-3.1-flash-lite",
+  "configuration": {
+    "extraction_temperature": 0.0,
+    "response_temperature": 0.3,
+    "tool_budget": 3
+  },
+  "status": "COMPLETE",
+  "scenarios": 1,
+  "passed": 1,
+  "failed_ids": [],
+  "metrics": {
+    "claim_resolution": {
+      "samples": 2,
+      "passed": 2,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "identity": {
+      "samples": 1,
+      "passed": 1,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "sop": {
+      "samples": 1,
+      "passed": 1,
+      "percentage": 100.0,
+      "failed_ids": []
+    }
+  },
+  "latencies": {
+    "api.chat_turn": {
+      "samples": 2,
+      "min_ms": 1617.569,
+      "p50_ms": 2581.245,
+      "p95_ms": 3544.922,
+      "max_ms": 3544.922
+    },
+    "api.events": {
+      "samples": 3,
+      "min_ms": 3.793,
+      "p50_ms": 5.567,
+      "p95_ms": 6.714,
+      "max_ms": 6.714
+    },
+    "api.session": {
+      "samples": 1,
+      "min_ms": 9.254,
+      "p50_ms": 9.254,
+      "p95_ms": 9.254,
+      "max_ms": 9.254
+    },
+    "api.verification_turn": {
+      "samples": 1,
+      "min_ms": 2031.249,
+      "p50_ms": 2031.249,
+      "p95_ms": 2031.249,
+      "max_ms": 2031.249
+    },
+    "api.workspace": {
+      "samples": 3,
+      "min_ms": 4.78,
+      "p50_ms": 5.167,
+      "p95_ms": 8.562,
+      "max_ms": 8.562
+    },
+    "knowledge.document_guidance": {
+      "samples": 1,
+      "min_ms": 1.676,
+      "p50_ms": 1.676,
+      "p95_ms": 1.676,
+      "max_ms": 1.676
+    },
+    "model.ConversationAnalysis": {
+      "samples": 3,
+      "min_ms": 1610,
+      "p50_ms": 1688,
+      "p95_ms": 2000,
+      "max_ms": 2000
+    },
+    "model.GroundedResponse": {
+      "samples": 1,
+      "min_ms": 1843,
+      "p50_ms": 1843,
+      "p95_ms": 1843,
+      "max_ms": 1843
+    },
+    "tool.get_claim_details": {
+      "samples": 1,
+      "min_ms": 4.719,
+      "p50_ms": 4.719,
+      "p95_ms": 4.719,
+      "max_ms": 4.719
+    },
+    "tool.search_customer_claims": {
+      "samples": 2,
+      "min_ms": 1.075,
+      "p50_ms": 1.446,
+      "p95_ms": 1.818,
+      "max_ms": 1.818
+    },
+    "tool.verify_identity": {
+      "samples": 1,
+      "min_ms": 1.064,
+      "p50_ms": 1.064,
+      "p95_ms": 1.064,
+      "max_ms": 1.064
+    }
+  },
+  "token_usage": {
+    "input": 1198,
+    "output": 833,
+    "samples": 4
+  },
+  "database_statement_counts": {
+    "BEGIN": 12,
+    "COMMIT": 12,
+    "CREATE": 17,
+    "DELETE": 3,
+    "INSERT": 52,
+    "SELECT": 31,
+    "UPDATE": 4
+  },
+  "results": [
+    {
+      "id": "AMBIGUOUS_CLAIM",
+      "category": "claims",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "claim_resolution"
+          ],
+          "passed": true
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "claim_resolution"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "RESOLVE_INTENT",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 1,
+          "transitions": [
+            "RESOLVE_INTENT"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "RESOLVE_INTENT",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 2,
+          "transitions": [
+            "RESOLVE_INTENT"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 4,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        }
+      ]
+    }
+  ]
+}

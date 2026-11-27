@@ -38,21 +38,24 @@ class Provider(Protocol):
                       temperature: float, max_tokens: int) -> Generated: ...
 
 
-class OpenAIProvider:
+class ChatCompletionsProvider:
     def __init__(self, key: str, model: str, timeout: float, client: httpx.Client | None = None):
         if not key.strip() or not model.strip():
             raise ModelFailure("missing_model_configuration")
         self._key, self.model, self.timeout = key, model, timeout
         self._client = client
 
+    def _response_format(self, schema):
+        return {"type": "json_object"}
+
     def _generate(self, messages, temperature, max_tokens, schema=None):
         start = monotonic()
         payload = {
             "model": self.model, "messages": messages, "temperature": temperature,
-            "max_completion_tokens": max_tokens, "store": False,
+            "max_completion_tokens": max_tokens, **self.request_options,
         }
         if schema is not None:
-            payload["response_format"] = {"type": "json_object"}
+            payload["response_format"] = self._response_format(schema)
             payload["messages"] = [
                 {"role": "system", "content": "Return JSON matching " + json.dumps(schema.model_json_schema())},
                 *messages,
@@ -60,7 +63,7 @@ class OpenAIProvider:
         try:
             post = self._client.post if self._client else httpx.post
             response = post(
-                "https://api.openai.com/v1/chat/completions", json=payload,
+                self.endpoint, json=payload,
                 headers={"Authorization": "Bearer " + self._key}, timeout=self.timeout,
             )
         except httpx.TimeoutException as error:
@@ -89,7 +92,7 @@ class OpenAIProvider:
                 value = schema.model_validate_json(value)
             prompt, completion = usage.get("prompt_tokens"), usage.get("completion_tokens")
             return Generated(
-                value, "openai", self.model, int((monotonic() - start) * 1000),
+                value, self.provider_name, self.model, int((monotonic() - start) * 1000),
                 response.headers.get("x-request-id"),
                 prompt if type(prompt) is int and prompt >= 0 else None,
                 completion if type(completion) is int and completion >= 0 else None,
@@ -103,6 +106,23 @@ class OpenAIProvider:
 
     def generate_text(self, messages, *, temperature, max_tokens):
         return self._generate(messages, temperature, max_tokens)
+
+
+class OpenAIProvider(ChatCompletionsProvider):
+    provider_name = "openai"
+    endpoint = "https://api.openai.com/v1/chat/completions"
+    request_options = {"store": False}
+
+
+class GeminiProvider(ChatCompletionsProvider):
+    provider_name = "gemini"
+    endpoint = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+    request_options = {"reasoning_effort": "low"}
+
+    def _response_format(self, schema):
+        return {"type": "json_schema", "json_schema": {
+            "name": schema.__name__, "schema": schema.model_json_schema(), "strict": True,
+        }}
 
 
 class MockProvider:
@@ -127,5 +147,6 @@ class MockProvider:
 def create_provider(settings) -> Provider:
     if settings.llm_provider == "mock":
         return MockProvider()
-    return OpenAIProvider(settings.llm_api_key.get_secret_value(), settings.llm_model,
-                          settings.llm_timeout_seconds)
+    provider = {"openai": OpenAIProvider, "gemini": GeminiProvider}[settings.llm_provider]
+    return provider(settings.llm_api_key.get_secret_value(), settings.llm_model,
+                    settings.llm_timeout_seconds)

@@ -46,7 +46,7 @@ From `frontend/`, use `npm ci`, `npm run dev`, `npm run build`, `npm run typeche
 
 Validate deployment configuration with `docker compose --env-file .env.example config --quiet`. Use `python scripts/smoke_demo.py` against the running same-origin frontend before release.
 
-The default `LLM_PROVIDER=mock` runs without credentials. Use synthetic fixtures for the opt-in live checks in README.md.
+The default `LLM_PROVIDER=mock` runs without credentials. Use synthetic fixtures for opt-in OpenAI and Gemini checks in README.md.
 
 Run `python -m evaluation.run --provider mock --output evaluation/reports/deterministic_results.json` for the reproducible fixture evaluation. Keep configured-provider results separate.
 

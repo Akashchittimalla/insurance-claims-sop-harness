@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     demo_mode: bool = True
     database_url: str = "sqlite:///./data/insurance.db"
     business_timezone: str = "America/Chicago"
-    llm_provider: Literal["mock", "openai"] = "mock"
+    llm_provider: Literal["mock", "openai", "gemini"] = "mock"
     llm_api_key: SecretStr = SecretStr("")
     demo_diagnostics_key: SecretStr = SecretStr("")
     llm_model: str = ""

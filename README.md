@@ -30,7 +30,7 @@ The four phases are `VERIFY_ID`, `RESOLVE_INTENT`, `PROCESS_CASE`, and `POST_PRO
 
 ## Run with Docker Compose
 
-The Compose profile is prepared for a local synthetic demo. Configuration validation passed. Docker image builds and runtime verification are pending on a host with a Linux container engine.
+The local synthetic demo passed Docker Compose verification on Windows with Docker Desktop?s Linux engine. Both images built, both services became healthy, and the send and skip outcomes survived a backend restart.
 
 ```powershell
 docker compose --env-file .env.example config --quiet
@@ -69,6 +69,16 @@ Open `http://127.0.0.1:3000`. The same-origin gateway uses the server-only `BACK
 Use environment variables or copy [.env.example](.env.example) to an ignored local `.env`. `DATABASE_URL` takes a SQLite URL, and `BUSINESS_TIMEZONE` controls appeal-date comparisons (default `America/Chicago`). Windows installs `tzdata` through the project dependencies. `DEMO_MODE=true` seeds the synthetic fixtures.
 
 For the OpenAI adapter, set `LLM_PROVIDER=openai`, `LLM_MODEL`, and `LLM_API_KEY` in the backend environment. Choose a Chat Completions model supporting JSON output and the configured temperature. Keep the key out of source and client code. Use synthetic data for live evaluation.
+
+For Gemini, set these values in the root `.env` and use your Google AI Studio key. Restart the backend after changing providers.
+
+```dotenv
+LLM_PROVIDER=gemini
+LLM_MODEL=gemini-3.1-flash-lite
+LLM_API_KEY=your-gemini-api-key
+```
+
+The adapter uses [Google’s Chat Completions endpoint](https://ai.google.dev/gemini-api/docs/openai), requests schema-constrained JSON, and validates the returned data against the backend’s existing Pydantic proposals.
 
 ## Demo walkthrough
 
@@ -137,4 +147,4 @@ See the [evaluation report](docs/EVALUATION_REPORT.md), [requirements matrix](do
 | `tests/`, `evaluation/` | Backend regressions, dataset, and measured results |
 | `scripts/`, `docs/` | Smoke and packaging commands, architecture, and release evidence |
 
-The demo uses synthetic data, single-node SQLite, simulated email and simulated handoff. Representative self-service fails closed pending an approved authentication policy. National ID is excluded from the approved factor list. The OpenAI transport has offline contract coverage. Live model behavior and Docker runtime acceptance remain open. Production use needs separate identity, privacy, and deployment controls. See the [submission checklist](docs/SUBMISSION_CHECKLIST.md).
+The demo uses synthetic data, single-node SQLite, simulated email and simulated handoff. Representative self-service fails closed pending an approved authentication policy. National ID is excluded from the approved factor list. The OpenAI transport has offline contract coverage. Live model behavior remains unverified. Production use needs separate identity, privacy, and deployment controls. See the [submission checklist](docs/SUBMISSION_CHECKLIST.md).

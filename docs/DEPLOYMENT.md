@@ -33,7 +33,7 @@ For Bash use `cp .env.example .env` in place of `Copy-Item`. Preserve an existin
 
 Use `config --quiet` with credentials configured to avoid printing expanded values. The frontend health check probes its HTTP entry point and the backend probes SQLite readiness. Inspect `ps` for an unhealthy service. Check port conflicts, seed errors, and writable volume ownership using the logs. Keep this demo on loopback. Public hosting requires operator authentication, TLS, trusted client attribution, reviewed data handling and secret distribution.
 
-The official Compose parser passed. Docker engine, Linux containers, and Compose runtime were unavailable on the verification host. Both image builds, image sizes, container health, cold startup and volume persistence under Compose remain mandatory release checks. See [submission checklist](SUBMISSION_CHECKLIST.md) for native evidence.
+On 2026-11-26, Docker Desktop?s Linux engine validated the manifest, built both images using the available build cache, and started both services on a fresh named volume. The full mock HTTP smoke test passed both consent branches and verified the two persisted outcomes after backend restart. See the [submission checklist](SUBMISSION_CHECKLIST.md).
 
 ## Native fallback
 

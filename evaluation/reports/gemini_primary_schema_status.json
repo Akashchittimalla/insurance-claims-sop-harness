@@ -1,0 +1,268 @@
+{
+  "mode": "configured",
+  "dataset": "insurance-sop-v1",
+  "dataset_sha256": "5250ccc3b1df16c34557d67250111bd069eab03f3ab99a5b6cddea78d3568cc0",
+  "executed_at_utc": "2026-11-26T23:44:13.051557+00:00",
+  "scenario_clock": "2026-11-26T18:00:00+00:00",
+  "provider": "gemini",
+  "model": "gemini-3.1-flash-lite",
+  "configuration": {
+    "extraction_temperature": 0.0,
+    "response_temperature": 0.3,
+    "tool_budget": 3
+  },
+  "status": "COMPLETE",
+  "scenarios": 1,
+  "passed": 1,
+  "failed_ids": [],
+  "metrics": {
+    "claim_resolution": {
+      "samples": 1,
+      "passed": 1,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "completion": {
+      "samples": 1,
+      "passed": 1,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "consent": {
+      "samples": 1,
+      "passed": 1,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "groundedness": {
+      "samples": 2,
+      "passed": 2,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "identity": {
+      "samples": 1,
+      "passed": 1,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "intent": {
+      "samples": 1,
+      "passed": 1,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "sop": {
+      "samples": 2,
+      "passed": 2,
+      "percentage": 100.0,
+      "failed_ids": []
+    }
+  },
+  "latencies": {
+    "api.chat_turn": {
+      "samples": 2,
+      "min_ms": 6.083,
+      "p50_ms": 3327.499,
+      "p95_ms": 6648.915,
+      "max_ms": 6648.915
+    },
+    "api.events": {
+      "samples": 4,
+      "min_ms": 2.813,
+      "p50_ms": 3.166,
+      "p95_ms": 3.858,
+      "max_ms": 3.858
+    },
+    "api.session": {
+      "samples": 1,
+      "min_ms": 9.13,
+      "p50_ms": 9.13,
+      "p95_ms": 9.13,
+      "max_ms": 9.13
+    },
+    "api.summary_choice": {
+      "samples": 1,
+      "min_ms": 9.069,
+      "p50_ms": 9.069,
+      "p95_ms": 9.069,
+      "max_ms": 9.069
+    },
+    "api.summary_preview": {
+      "samples": 1,
+      "min_ms": 4.947,
+      "p50_ms": 4.947,
+      "p95_ms": 4.947,
+      "max_ms": 4.947
+    },
+    "api.verification_turn": {
+      "samples": 1,
+      "min_ms": 4457.719,
+      "p50_ms": 4457.719,
+      "p95_ms": 4457.719,
+      "max_ms": 4457.719
+    },
+    "api.workspace": {
+      "samples": 4,
+      "min_ms": 3.031,
+      "p50_ms": 4.334,
+      "p95_ms": 6.272,
+      "max_ms": 6.272
+    },
+    "knowledge.document_guidance": {
+      "samples": 2,
+      "min_ms": 0.595,
+      "p50_ms": 0.61,
+      "p95_ms": 0.625,
+      "max_ms": 0.625
+    },
+    "model.ConversationAnalysis": {
+      "samples": 2,
+      "min_ms": 1641,
+      "p50_ms": 1758.0,
+      "p95_ms": 1875,
+      "max_ms": 1875
+    },
+    "model.GroundedResponse": {
+      "samples": 2,
+      "min_ms": 2561,
+      "p50_ms": 3780.5,
+      "p95_ms": 5000,
+      "max_ms": 5000
+    },
+    "tool.get_claim_details": {
+      "samples": 2,
+      "min_ms": 1.758,
+      "p50_ms": 2.377,
+      "p95_ms": 2.997,
+      "max_ms": 2.997
+    },
+    "tool.search_customer_claims": {
+      "samples": 1,
+      "min_ms": 0.792,
+      "p50_ms": 0.792,
+      "p95_ms": 0.792,
+      "max_ms": 0.792
+    },
+    "tool.verify_identity": {
+      "samples": 1,
+      "min_ms": 1.074,
+      "p50_ms": 1.074,
+      "p95_ms": 1.074,
+      "max_ms": 1.074
+    }
+  },
+  "token_usage": {
+    "input": 1170,
+    "output": 910,
+    "samples": 4
+  },
+  "database_statement_counts": {
+    "BEGIN": 16,
+    "COMMIT": 16,
+    "CREATE": 17,
+    "DELETE": 3,
+    "INSERT": 56,
+    "SELECT": 65,
+    "UPDATE": 6
+  },
+  "results": [
+    {
+      "id": "MARGARET_SEND",
+      "category": "completion",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "groundedness"
+          ],
+          "passed": true
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 4,
+          "metrics": [
+            "consent",
+            "completion"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 4,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "POST_PROCESS",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": "pending",
+          "tool_calls_so_far": 4,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE",
+            "POST_PROCESS"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 4,
+          "phase": "POST_PROCESS",
+          "status": "completed",
+          "claim": "CL-2048",
+          "delivery": "simulated",
+          "tool_calls_so_far": 4,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE",
+            "POST_PROCESS"
+          ],
+          "simulated_deliveries": 1
+        }
+      ]
+    }
+  ]
+}

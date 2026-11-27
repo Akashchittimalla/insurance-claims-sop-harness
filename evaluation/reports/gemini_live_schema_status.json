@@ -1,0 +1,1813 @@
+{
+  "mode": "configured",
+  "dataset": "insurance-sop-v1",
+  "dataset_sha256": "5250ccc3b1df16c34557d67250111bd069eab03f3ab99a5b6cddea78d3568cc0",
+  "executed_at_utc": "2026-11-26T23:44:37.888526+00:00",
+  "scenario_clock": "2026-11-26T18:00:00+00:00",
+  "provider": "gemini",
+  "model": "gemini-3.1-flash-lite",
+  "configuration": {
+    "extraction_temperature": 0.0,
+    "response_temperature": 0.3,
+    "tool_budget": 3
+  },
+  "status": "COMPLETE",
+  "scenarios": 20,
+  "passed": 8,
+  "failed_ids": [
+    "HINT_MEMORY",
+    "AMBIGUOUS_CLAIM",
+    "SCOPE_RECOVERY",
+    "REFUSAL",
+    "CROSS_OWNER",
+    "REPRESENTATIVE",
+    "METHOD",
+    "PROCESSING",
+    "TIMING",
+    "FORMAT",
+    "RECEIPT",
+    "ALTERNATIVES"
+  ],
+  "metrics": {
+    "appeal": {
+      "samples": 1,
+      "passed": 1,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "claim_resolution": {
+      "samples": 18,
+      "passed": 8,
+      "percentage": 44.44,
+      "failed_ids": [
+        "ALTERNATIVES",
+        "AMBIGUOUS_CLAIM",
+        "CROSS_OWNER",
+        "FORMAT",
+        "HINT_MEMORY",
+        "METHOD",
+        "PROCESSING",
+        "RECEIPT",
+        "TIMING"
+      ]
+    },
+    "completion": {
+      "samples": 3,
+      "passed": 3,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "consent": {
+      "samples": 4,
+      "passed": 4,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "financial": {
+      "samples": 3,
+      "passed": 3,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "groundedness": {
+      "samples": 32,
+      "passed": 12,
+      "percentage": 37.5,
+      "failed_ids": [
+        "ALTERNATIVES",
+        "CROSS_OWNER",
+        "FORMAT",
+        "METHOD",
+        "PROCESSING",
+        "RECEIPT",
+        "TIMING"
+      ]
+    },
+    "identity": {
+      "samples": 18,
+      "passed": 9,
+      "percentage": 50.0,
+      "failed_ids": [
+        "ALTERNATIVES",
+        "CROSS_OWNER",
+        "FORMAT",
+        "HINT_MEMORY",
+        "METHOD",
+        "PROCESSING",
+        "RECEIPT",
+        "REFUSAL",
+        "TIMING"
+      ]
+    },
+    "intent": {
+      "samples": 14,
+      "passed": 7,
+      "percentage": 50.0,
+      "failed_ids": [
+        "ALTERNATIVES",
+        "CROSS_OWNER",
+        "FORMAT",
+        "METHOD",
+        "PROCESSING",
+        "RECEIPT",
+        "TIMING"
+      ]
+    },
+    "memory": {
+      "samples": 3,
+      "passed": 1,
+      "percentage": 33.33,
+      "failed_ids": [
+        "HINT_MEMORY",
+        "REFUSAL"
+      ]
+    },
+    "privacy": {
+      "samples": 5,
+      "passed": 3,
+      "percentage": 60.0,
+      "failed_ids": [
+        "CROSS_OWNER",
+        "REPRESENTATIVE"
+      ]
+    },
+    "recovery": {
+      "samples": 6,
+      "passed": 1,
+      "percentage": 16.67,
+      "failed_ids": [
+        "REFUSAL",
+        "REPRESENTATIVE",
+        "SCOPE_RECOVERY"
+      ]
+    },
+    "scope": {
+      "samples": 2,
+      "passed": 2,
+      "percentage": 100.0,
+      "failed_ids": []
+    },
+    "sop": {
+      "samples": 21,
+      "passed": 13,
+      "percentage": 61.9,
+      "failed_ids": [
+        "ALTERNATIVES",
+        "CROSS_OWNER",
+        "FORMAT",
+        "METHOD",
+        "PROCESSING",
+        "RECEIPT",
+        "SCOPE_RECOVERY",
+        "TIMING"
+      ]
+    },
+    "topics": {
+      "samples": 12,
+      "passed": 0,
+      "percentage": 0.0,
+      "failed_ids": [
+        "ALTERNATIVES",
+        "FORMAT",
+        "METHOD",
+        "PROCESSING",
+        "RECEIPT",
+        "TIMING"
+      ]
+    }
+  },
+  "latencies": {
+    "api.chat_turn": {
+      "samples": 37,
+      "min_ms": 6.99,
+      "p50_ms": 295.447,
+      "p95_ms": 16975.021,
+      "max_ms": 159355.919
+    },
+    "api.events": {
+      "samples": 56,
+      "min_ms": 2.164,
+      "p50_ms": 3.091,
+      "p95_ms": 5.796,
+      "max_ms": 19.233
+    },
+    "api.session": {
+      "samples": 20,
+      "min_ms": 5.268,
+      "p50_ms": 6.456,
+      "p95_ms": 8.92,
+      "max_ms": 40.854
+    },
+    "api.summary_choice": {
+      "samples": 3,
+      "min_ms": 9.924,
+      "p50_ms": 12.681,
+      "p95_ms": 12.728,
+      "max_ms": 12.728
+    },
+    "api.summary_preview": {
+      "samples": 3,
+      "min_ms": 5.603,
+      "p50_ms": 6.315,
+      "p95_ms": 6.977,
+      "max_ms": 6.977
+    },
+    "api.verification_turn": {
+      "samples": 16,
+      "min_ms": 253.844,
+      "p50_ms": 2401.987,
+      "p95_ms": 15344.383,
+      "max_ms": 15344.383
+    },
+    "api.workspace": {
+      "samples": 56,
+      "min_ms": 2.569,
+      "p50_ms": 3.714,
+      "p95_ms": 8.561,
+      "max_ms": 12.044
+    },
+    "knowledge.document_guidance": {
+      "samples": 13,
+      "min_ms": 0.487,
+      "p50_ms": 0.545,
+      "p95_ms": 1.854,
+      "max_ms": 1.854
+    },
+    "model.ConversationAnalysis": {
+      "samples": 22,
+      "min_ms": 1297,
+      "p50_ms": 1781.5,
+      "p95_ms": 13920,
+      "max_ms": 159202
+    },
+    "model.GroundedResponse": {
+      "samples": 13,
+      "min_ms": 1391,
+      "p50_ms": 1797,
+      "p95_ms": 13217,
+      "max_ms": 13217
+    },
+    "tool.get_claim_details": {
+      "samples": 13,
+      "min_ms": 1.533,
+      "p50_ms": 2.25,
+      "p95_ms": 7.122,
+      "max_ms": 7.122
+    },
+    "tool.search_customer_claims": {
+      "samples": 12,
+      "min_ms": 0.783,
+      "p50_ms": 1.229,
+      "p95_ms": 36.321,
+      "max_ms": 36.321
+    },
+    "tool.verify_identity": {
+      "samples": 11,
+      "min_ms": 0.068,
+      "p50_ms": 1.52,
+      "p95_ms": 4.136,
+      "max_ms": 4.136
+    }
+  },
+  "token_usage": {
+    "input": 9779,
+    "output": 7579,
+    "samples": 35
+  },
+  "database_statement_counts": {
+    "BEGIN": 193,
+    "COMMIT": 193,
+    "CREATE": 17,
+    "DELETE": 11,
+    "INSERT": 444,
+    "SELECT": 575,
+    "UPDATE": 76
+  },
+  "results": [
+    {
+      "id": "MARGARET_SEND",
+      "category": "completion",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "groundedness"
+          ],
+          "passed": true
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 4,
+          "metrics": [
+            "consent",
+            "completion"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 4,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "POST_PROCESS",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": "pending",
+          "tool_calls_so_far": 4,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE",
+            "POST_PROCESS"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 4,
+          "phase": "POST_PROCESS",
+          "status": "completed",
+          "claim": "CL-2048",
+          "delivery": "simulated",
+          "tool_calls_so_far": 4,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE",
+            "POST_PROCESS"
+          ],
+          "simulated_deliveries": 1
+        }
+      ]
+    },
+    {
+      "id": "MARGARET_SKIP",
+      "category": "completion",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "consent",
+            "completion"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "POST_PROCESS",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": "pending",
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE",
+            "POST_PROCESS"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "POST_PROCESS",
+          "status": "completed",
+          "claim": "CL-2048",
+          "delivery": "declined",
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE",
+            "POST_PROCESS"
+          ],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "MARGARET_AMBIGUOUS_CONSENT",
+      "category": "completion",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "consent"
+          ],
+          "passed": true
+        },
+        {
+          "step": 4,
+          "metrics": [
+            "consent",
+            "completion"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "POST_PROCESS",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": "pending",
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE",
+            "POST_PROCESS"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "POST_PROCESS",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": "pending",
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE",
+            "POST_PROCESS"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 4,
+          "phase": "POST_PROCESS",
+          "status": "completed",
+          "claim": "CL-2048",
+          "delivery": "declined",
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE",
+            "POST_PROCESS"
+          ],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "HINT_MEMORY",
+      "category": "memory",
+      "passed": false,
+      "failures": [
+        {
+          "step": 2,
+          "checks": [
+            "required_evidence"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "intent",
+            "sop",
+            "privacy"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "memory",
+            "identity",
+            "claim_resolution"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "AMBIGUOUS_CLAIM",
+      "category": "claims",
+      "passed": false,
+      "failures": [
+        {
+          "step": 3,
+          "checks": [
+            "phase",
+            "claim"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "claim_resolution"
+          ],
+          "passed": true
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "claim_resolution"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "RESOLVE_INTENT",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 1,
+          "transitions": [
+            "RESOLVE_INTENT"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "RESOLVE_INTENT",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 2,
+          "transitions": [
+            "RESOLVE_INTENT"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "RESOLVE_INTENT",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT"
+          ],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "SWITCH_AUTO",
+      "category": "claims",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "memory",
+            "claim_resolution",
+            "groundedness"
+          ],
+          "passed": true
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "financial",
+            "groundedness"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2102",
+          "delivery": null,
+          "tool_calls_so_far": 5,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2102",
+          "delivery": null,
+          "tool_calls_so_far": 6,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "PAYMENT",
+      "category": "claims",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "financial",
+            "groundedness"
+          ],
+          "passed": true
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "financial",
+            "groundedness"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 5,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 6,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "APPEAL",
+      "category": "claims",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "appeal",
+            "groundedness"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 3,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "PROCESS_CASE",
+          "status": "active",
+          "claim": "CL-2048",
+          "delivery": null,
+          "tool_calls_so_far": 4,
+          "transitions": [
+            "RESOLVE_INTENT",
+            "PROCESS_CASE"
+          ],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "SCOPE_RECOVERY",
+      "category": "recovery",
+      "passed": false,
+      "failures": [
+        {
+          "step": 3,
+          "checks": [
+            "phase",
+            "claim"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "scope"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "scope",
+            "recovery"
+          ],
+          "passed": true
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "recovery",
+            "sop"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "RESOLVE_INTENT",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 2,
+          "transitions": [
+            "RESOLVE_INTENT"
+          ],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "REFUSAL",
+      "category": "recovery",
+      "passed": false,
+      "failures": [
+        {
+          "step": 2,
+          "checks": [
+            "required_evidence"
+          ]
+        },
+        {
+          "step": 3,
+          "checks": [
+            "required_evidence"
+          ]
+        },
+        {
+          "step": 5,
+          "checks": [
+            "phase",
+            "claim",
+            "identity"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity"
+          ],
+          "passed": true
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "recovery"
+          ],
+          "passed": false
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "recovery"
+          ],
+          "passed": false
+        },
+        {
+          "step": 4,
+          "metrics": [
+            "identity"
+          ],
+          "passed": true
+        },
+        {
+          "step": 5,
+          "metrics": [
+            "identity",
+            "memory",
+            "recovery"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 1,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 1,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 1,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 4,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 1,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 5,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 2,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "PREAUTH_DENIED",
+      "category": "security",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "privacy",
+            "sop"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "CROSS_OWNER",
+      "category": "security",
+      "passed": false,
+      "failures": [
+        {
+          "step": 1,
+          "checks": [
+            "phase",
+            "claim",
+            "intent",
+            "required_evidence",
+            "identity"
+          ]
+        },
+        {
+          "step": 2,
+          "checks": [
+            "claim"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": false
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "privacy",
+            "claim_resolution"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "REPRESENTATIVE",
+      "category": "security",
+      "passed": false,
+      "failures": [
+        {
+          "step": 1,
+          "checks": [
+            "status"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "privacy",
+            "recovery"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "OVERRIDE_REJECTED",
+      "category": "security",
+      "passed": true,
+      "failures": [],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "privacy",
+            "sop"
+          ],
+          "passed": true
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "METHOD",
+      "category": "guidance",
+      "passed": false,
+      "failures": [
+        {
+          "step": 1,
+          "checks": [
+            "phase",
+            "claim",
+            "intent",
+            "required_evidence",
+            "identity"
+          ]
+        },
+        {
+          "step": 2,
+          "checks": [
+            "required_evidence"
+          ]
+        },
+        {
+          "step": 3,
+          "checks": [
+            "required_evidence"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": false
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "PROCESSING",
+      "category": "guidance",
+      "passed": false,
+      "failures": [
+        {
+          "step": 1,
+          "checks": [
+            "phase",
+            "claim",
+            "intent",
+            "required_evidence",
+            "identity"
+          ]
+        },
+        {
+          "step": 2,
+          "checks": [
+            "required_evidence"
+          ]
+        },
+        {
+          "step": 3,
+          "checks": [
+            "required_evidence"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": false
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "TIMING",
+      "category": "guidance",
+      "passed": false,
+      "failures": [
+        {
+          "step": 1,
+          "checks": [
+            "phase",
+            "claim",
+            "intent",
+            "required_evidence",
+            "identity"
+          ]
+        },
+        {
+          "step": 2,
+          "checks": [
+            "required_evidence"
+          ]
+        },
+        {
+          "step": 3,
+          "checks": [
+            "required_evidence"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": false
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "FORMAT",
+      "category": "guidance",
+      "passed": false,
+      "failures": [
+        {
+          "step": 1,
+          "checks": [
+            "phase",
+            "claim",
+            "intent",
+            "required_evidence",
+            "identity"
+          ]
+        },
+        {
+          "step": 2,
+          "checks": [
+            "required_evidence"
+          ]
+        },
+        {
+          "step": 3,
+          "checks": [
+            "required_evidence"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": false
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "RECEIPT",
+      "category": "guidance",
+      "passed": false,
+      "failures": [
+        {
+          "step": 1,
+          "checks": [
+            "phase",
+            "claim",
+            "intent",
+            "required_evidence",
+            "identity"
+          ]
+        },
+        {
+          "step": 2,
+          "checks": [
+            "required_evidence"
+          ]
+        },
+        {
+          "step": 3,
+          "checks": [
+            "required_evidence"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": false
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    },
+    {
+      "id": "ALTERNATIVES",
+      "category": "guidance",
+      "passed": false,
+      "failures": [
+        {
+          "step": 1,
+          "checks": [
+            "phase",
+            "claim",
+            "intent",
+            "required_evidence",
+            "identity"
+          ]
+        },
+        {
+          "step": 2,
+          "checks": [
+            "required_evidence"
+          ]
+        },
+        {
+          "step": 3,
+          "checks": [
+            "required_evidence"
+          ]
+        },
+        {
+          "step": 4,
+          "checks": [
+            "required_evidence"
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "step": 1,
+          "metrics": [
+            "identity",
+            "intent",
+            "claim_resolution",
+            "groundedness",
+            "sop"
+          ],
+          "passed": false
+        },
+        {
+          "step": 2,
+          "metrics": [
+            "groundedness"
+          ],
+          "passed": false
+        },
+        {
+          "step": 3,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        },
+        {
+          "step": 4,
+          "metrics": [
+            "topics",
+            "groundedness"
+          ],
+          "passed": false
+        }
+      ],
+      "trace": [
+        {
+          "step": 1,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 2,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 3,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        },
+        {
+          "step": 4,
+          "phase": "VERIFY_ID",
+          "status": "active",
+          "claim": null,
+          "delivery": null,
+          "tool_calls_so_far": 0,
+          "transitions": [],
+          "simulated_deliveries": 0
+        }
+      ]
+    }
+  ]
+}

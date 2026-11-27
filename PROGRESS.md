@@ -2,6 +2,14 @@
 
 ## Audit snapshot
 
+Gemini diagnostics reproduced intermittent provider timeouts and retryable failures. The follow-up keeps an existing supported claim intent when the model proposes `UNKNOWN` and routes explicit representative callers to human review through the trusted workflow without calling the model. Regression coverage verifies both behaviors.
+
+Explicit status wording now resolves an ambiguous owned claim even when the model omits the status. Verification refusal counts use explicit customer text, which preserves alternative identity options after model-only refusal proposals. The live ambiguity scenario passed after the status fix. The latest backend suite passed 109 tests with three opt-in live tests skipped.
+
+Gemini uses Google's Chat Completions compatibility endpoint. The first Flash-Lite live run passed 2 of 20 scenarios before schema-constrained output was added. Gemini's JSON included unsupported fields and types, which local validation rejected. The adapter now requests the proposal schema, and null model hints preserve the active claim. Backend regression passed with 105 tests and 3 opt-in live skips. The corrected live run passed 8 of 20 scenarios, including both Margaret consent paths. See the [live report](evaluation/reports/gemini_live_schema_status.json). Submission remains open because the remaining scenarios failed.
+
+**Docker follow-up, 2026-11-26.** Docker Desktop?s Linux engine passed Compose build, startup, service health, both mock consent branches, backend restart persistence and shutdown. Historical verification entries below record the earlier environment. The remaining application submission gate is configured real-model evaluation.
+
 Step 11 prepared the GitHub handoff and an allowlisted evaluator archive. The Phase 10 score remains 80/100 and final submission is **NOT_READY**. Docker image and runtime checks need a Linux container engine, and live-model evaluation needs configured credentials. The workspace has no Git metadata or starter license file, so tracked-file, history, remote, and original attribution checks require the original checkout. The source scan found no confirmed credential in intended submission files. All six fixture hashes matched. The [checklist](docs/SUBMISSION_CHECKLIST.md) records isolated ZIP verification and exclusions.
 
 Verified on 2026-11-26. Phase 9 packaged the local demo and verified the native release path. The Docker engine gate remains blocked. Live provider behavior, live delivery, Python advisory scanning, and production controls remain unverified or pending. Git metadata is unavailable.

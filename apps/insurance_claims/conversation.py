@@ -226,10 +226,15 @@ class Conversation:
         allowed = flow.policy.get_allowed_actions(state)
         history = self.sessions.history(connection, state.session_id,
                                         self.settings.max_conversation_history_messages)
+        representative = (state.phase == Phase.VERIFY_ID and protected.identity is not None
+                          and protected.identity.caller_role == "representative")
         try:
-            analysis = self._model(ConversationAnalysis, ANALYSIS_PROMPT,
-                                   context(state, protected, history, allowed),
-                                   self.settings.llm_extraction_temperature)
+            if representative:
+                analysis = ConversationAnalysis(scope=Scope.IN_SCOPE)
+            else:
+                analysis = self._model(ConversationAnalysis, ANALYSIS_PROMPT,
+                                       context(state, protected, history, allowed),
+                                       self.settings.llm_extraction_temperature)
         except ModelFailure as error:
             self.sessions.audit(connection, state, "model_analysis", decision="failed", reason=error.code)
             if error.code == "model_output_invalid":
@@ -246,9 +251,10 @@ class Conversation:
         elif analysis.scope == Scope.OUT_OF_SCOPE and protected.identity is not None:
             analysis = analysis.model_copy(update={"scope": Scope.MIXED})
 
-        self.sessions.audit(connection, state, "model_analysis", action=(
-            analysis.primary_intent.value if analysis.primary_intent else None
-        ), decision="allowed", reason=analysis.scope.value)
+        if not representative:
+            self.sessions.audit(connection, state, "model_analysis", action=(
+                analysis.primary_intent.value if analysis.primary_intent else None
+            ), decision="allowed", reason=analysis.scope.value)
         if analysis.scope in {Scope.OUT_OF_SCOPE, Scope.MIXED}:
             self.sessions.audit(connection, state, "scope_redirected", reason=analysis.scope.value)
         if analysis.emotion in {Emotion.ANGRY, Emotion.FRUSTRATED, Emotion.DISTRESSED}:
@@ -264,9 +270,16 @@ class Conversation:
             analysis.scope != Scope.UNCERTAIN
             or bool(local_topics or local_document_question or protected.amounts or protected.case_id)
         )
-        hints = analysis.claim_hints.model_dump(exclude_unset=True, exclude={"case_id", "year", "created_at"})
+        hints = analysis.claim_hints.model_dump(
+            exclude_unset=True, exclude_none=True, exclude={"case_id", "year", "created_at"},
+        )
         if not related:
             hints = {}
+        elif not hints.get("status"):
+            positive = re.split(r"\b(?:not|instead of|rather than)\b", protected.sanitized, maxsplit=1)[0]
+            status = re.search(r"\b(denied|closed|open) (?:\w+ )?claim\b", positive)
+            if status:
+                hints["status"] = status.group(1)
         if related and protected.case_id:
             hints["case_id"] = protected.case_id
         if related and protected.explicit_year is not None:
@@ -280,7 +293,9 @@ class Conversation:
             )}
         elif related and protected.correction and state.memory.claim_hints.case_id and hints:
             hints["case_id"] = None
-        primary = analysis.primary_intent if related else None
+        primary = analysis.primary_intent
+        if not related or primary is None or not primary.supported:
+            primary = None
         topics = tuple(dict.fromkeys((*local_topics, *analysis.followup_topics)))
         if related and topics and primary is None:
             primary = Intent.DOCUMENT_SUBMISSION
@@ -307,9 +322,7 @@ class Conversation:
             "recovery_stalled": state.phase == Phase.VERIFY_ID and related and bool(
                 primary or guard.explicit_refusal or analysis.clarification_required
             ),
-            "refused_verification": protected.refusal or guard.explicit_refusal or (
-                analysis.refusal_detected and state.phase == Phase.VERIFY_ID
-            ),
+            "refused_verification": protected.refusal or guard.explicit_refusal,
         }
         if primary and primary.supported:
             candidate_data["intent_hint"] = primary

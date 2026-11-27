@@ -135,7 +135,7 @@ class RecoveryPolicy:
 
 def empathy(emotion: Emotion, previous: Emotion | None) -> str:
     if emotion in {Emotion.ANGRY, Emotion.FRUSTRATED}:
-        return ("Let’s focus on what’s still needed. " if previous == emotion
+        return ("I know this is frustrating. Let’s focus on what’s still needed. " if previous == emotion
                 else "I understand this can be frustrating. ")
     return {
         Emotion.ANXIOUS: "It’s understandable to be worried about this. ",
