@@ -10,8 +10,8 @@ Deliver a text-chat demo that verifies a caller, identifies their insurance requ
 | --- | --- | --- |
 | Business enforcement | `sop.py` and `sop.yaml` enforce phase order and named guards. Structured turns verify identity, resolve owned claims, lock repeated failures, and gate inquiry completion on answered topics and empty pending work. | Expand conversational recovery and add authorized summary delivery. |
 | Data and tools | Typed fixture validation, owner-scoped claim and guidance tools, evidence validation, SQLite sessions, redacted audits, isolated consent simulation, and mock handoff. | Add live handoff and email adapters. |
-| Runtime | Python 3.10+, FastAPI, LangGraph, Pydantic v2, SQLite, provider-independent mock, OpenAI, and Gemini adapters, and React/Next.js with TypeScript. | See PROGRESS.md for configured-provider evidence. |
-| Delivery and tests | Seed CLI, health, session and chat API, pytest and Playwright coverage. | Container image builds and runtime acceptance remain unverified. |
+| Runtime | Python 3.10+, FastAPI, LangGraph, Pydantic v2, SQLite, provider-independent mock, OpenAI, and Gemini adapters, and React/Next.js with TypeScript. | See the [README results](README.md#verification-results) for configured-provider evidence. |
+| Delivery and tests | Seed CLI, health, session and chat API, pytest and Playwright coverage. | Docker images and the hosted mock workflow were verified. See the [current results](README.md#verification-results). |
 
 The conversational service turns redacted natural-language messages into typed candidates and passes them into the existing deterministic graph. The graph resolves intent from validated candidates and owner-scoped evidence. Case discussion and post-processing use trusted completion and summary choice operations. Runtime representative verification and external email sending remain unavailable. Partial identity values are held in process memory for the demo and are lost on restart. SQLite stores candidate field names, sanitized user history, and an isolated replay record. Claim facts are rendered from authorized tool values.
 
@@ -164,7 +164,7 @@ See [README.md](README.md) for current setup and [PROGRESS.md](PROGRESS.md) for 
 
 Use pytest for deterministic unit rules, SQLite and API integration, and adversarial tool and model tests. Inject a clock and fake provider, mail and handoff adapters. Use Playwright for the main path, send and skip choices, errors and retried turns once UI exists. Assert phases, repository and adapter call counts, observable replies, and redacted audit records.
 
-The release evidence is maintained in the [requirements matrix](docs/REQUIREMENTS_TRACEABILITY.md), [security audit](docs/SECURITY_AUDIT.md), and [evaluation report](docs/EVALUATION_REPORT.md). Report mock and configured-provider metrics separately, with the sample counts and failed scenario IDs. Critical authorization, true-state or side-effect failures block delivery. Approval of the local mock demo does not establish production readiness.
+Verification evidence is summarized in the [README](README.md#verification-results). See the [evaluation notes](docs/EVALUATION_REPORT.md) and [security notes](docs/SECURITY_AUDIT.md) for details. Report mock and configured-provider metrics separately, with the sample counts and failed scenario IDs. Critical authorization, true-state or side-effect failures block delivery. Approval of the local mock demo does not establish production readiness.
 
 ### Main fixture scenario
 

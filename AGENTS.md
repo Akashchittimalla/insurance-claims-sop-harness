@@ -1,4 +1,4 @@
-﻿# Working in the Insurance Claims SOP Harness
+# Working in the Insurance Claims SOP Harness
 
 Build an insurance support assistant that follows a deterministic four-phase SOP while conversing naturally.
 
@@ -70,6 +70,6 @@ Run the relevant tests and report what ran. Preserve fixture values and gate cov
 
 After every implementation task, review and reconcile AGENTS.md and SPEC.md against source, configuration, and tests. Update PROGRESS.md with actual results, unresolved issues, and the next milestone. Update DECISIONS.md when significant architecture decisions change and README.md when setup, configuration, usage, or commands change. Documentation synchronization and regression testing are mandatory completion criteria. Preserve accurate sections and distinguish current behavior from planned or unverified requirements.
 
-Before delivery, rerun browser and backend regressions, check all six fixture hashes, and resolve critical authorization, privacy, and consent defects. Review the [traceability matrix](docs/REQUIREMENTS_TRACEABILITY.md) and [security audit](docs/SECURITY_AUDIT.md).
+Before delivery, rerun browser and backend regressions, check all six fixture hashes, and resolve critical authorization, privacy, and consent defects. Review the [evaluation notes](docs/EVALUATION_REPORT.md) and [security notes](docs/SECURITY_AUDIT.md).
 
 Build the evaluator ZIP with `python scripts/package_submission.py --output dist/insurance-claims-sop-harness-submission.zip`. Keep environment templates, lockfiles, original fixtures, and intentional evaluation evidence under version control. Ignore private configuration and generated data. Preserve existing license and attribution files from the original checkout. Publishing requires authorization.

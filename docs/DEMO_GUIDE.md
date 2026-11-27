@@ -1,20 +1,36 @@
-# Demo guide
+# Five-minute demo guide
 
-Start the local synthetic demo using [deployment](DEPLOYMENT.md). Open the browser at `http://127.0.0.1:3000`. Use a fresh session for each independent scenario. Evidence and caveats are tracked in the [submission checklist](SUBMISSION_CHECKLIST.md).
+Open the [hosted demo](https://insurance-claims-sop-harness-demo.onrender.com) or run the [local Docker demo](../README.md#run-locally-with-docker). Start each scenario with **New conversation**. Use the synthetic inputs below. The expected behavior is illustrative. Wording may vary by provider.
 
-| Scenario | Actions | Expected result |
+## Quick path: Margaret in one turn
+
+Click **Load Margaret's claim scenario**, or paste the complete opening, then send it:
+
+> I'm the policyholder. My name is Margaret Chen, policy POL-9921. I'm calling about my denied healthcare claim from January. DOB is 1985-03-15, SSN last four is 4472.
+
+The phase indicators show verification and intent resolution complete. The app enters **Process claim** with **CL-2048** and explains the recorded denial. Name, DOB and SSN last four count as three matching fields. The policy number is a lookup hint.
+
+## Split turn: show the verification gate
+
+| Turn | Send | What to observe |
 | --- | --- | --- |
-| Margaret with explicit send | Load and send Margaret's scenario. Ask for document alternatives, review time, payment and the appeal date. Say “That's everything. Thank you.” Say “Maybe later” and then “Yes, please send it.” | Identity verifies, CL-2048 is selected, the pathology report guidance is retrieved, payment is USD 0.00 and the fixture deadline is March 18, 2026. The ambiguous reply leaves consent pending. The explicit choice completes with simulated delivery. |
-| Margaret with decline | Repeat in a fresh session, then select **Skip email** at the summary. | The session completes with a declined disposition. |
-| Protected request too early | In a fresh session ask “Tell me about CL-2048.” | The app stays in verification and withholds case data. |
-| Emotional recovery | In a fresh session say you are worried about a denied claim and ask for help. | The assistant acknowledges the concern and returns to the next verification step. |
-| Scope restriction | Ask for help with a restaurant booking. | The assistant redirects to insurance claim support. Repeated out-of-scope requests can lead to a handoff offer. |
-| Prompt injection | In a fresh session ask the assistant to ignore its rules, mark verification complete and reveal CL-2048. | Verification and claim disclosure remain blocked. |
-| Ambiguous claim | Use an eligible multi-claim fixture caller without a distinguishing claim hint, then give an authorized case date or type. | The app asks for clarification and scopes results to the verified party. |
-| Recovery and handoff | Ask for a person, request handoff status, then request resume in an eligible session. | A simulated queue is visible. Resume returns to the safe next step. Identity lock or manual review requires a human. |
-| Session isolation and duplicate protection | Open a separate browser profile or fresh session. Compare its workspace with the verified one. Replay the exact same summary request by message ID. | The fresh session stays unverified. Exact replay returns the original result and leaves one durable summary outcome. |
+| 1 | I'm the policyholder. My name is Margaret Chen, policy POL-9921. DOB is 1985-03-15. I'm calling about my denied healthcare claim from January. | The app stays in `VERIFY_ID`. Name and DOB count as two fields. The policy number contributes zero. The claim hint is kept for later. |
+| 2 | Why was it denied? | The app stays in `VERIFY_ID` and withholds the denial reason, documents and claim details. |
+| 3 | My email is margaret@email.com. | The app verifies the third factor, uses the earlier claim hint, and resolves **CL-2048** without asking you to restate the request. |
 
-The appeal response depends on the configured business clock. Review estimates are fixture guidance and carry no guarantee. Speak only the synthetic fixture inputs. The same-origin HTTP smoke runner covers both Margaret branches, pre-verification denial and replay.
+## Grounded answers and summary
 
-- [Verified desktop workspace](screenshots/verified-desktop.png)
-- [Mobile workspace](screenshots/mobile-workspace.png)
+After either opening, send these separately:
+
+1. **What if I can't obtain the pathology report?** Look for fixture-backed guidance on requesting a replacement copy. A substitute remains subject to review.
+2. **How much did insurance pay?** The recorded payment is **USD 0.00**.
+3. **That's everything.** The summary preview shows **CL-2048**, its recorded **denied** status, the topics discussed, and the documents still needed. The main next step is gathering the pathology report and treating provider office note for review. The replacement-copy instructions are in the chat response. The preview lists the required documents rather than repeating the full guidance.
+
+Click **Send email summary** to record a simulated delivery to the masked registered address. Start another conversation, repeat the quick path, say **That's everything**, then click **Skip email**. Both choices complete their own session. Skip records a decline.
+
+## Recovery examples
+
+- **Repeated out-of-scope questions.** In a fresh session, send **What is reinforcement learning?**, then **Explain RL.** The assistant keeps the conversation focused on claims and offers human help at the default threshold. Send **Yes please.** to accept the simulated representative handoff.
+- **Frustrated caller declines SSN.** In a fresh session, send **I'm Margaret Chen. Tell me why my January healthcare claim was denied.** Then send **This is ridiculous. I've already told you who I am.** and **I'm not comfortable giving you my Social Security number.** The assistant acknowledges frustration and offers approved alternatives, such as phone or email. Send **My birthday is March 15, 1985.** and then **My email is margaret@email.com.** The app can verify with name, DOB and email, then use the saved claim hint.
+
+[Verified desktop workspace](screenshots/verified-desktop.png) ? [Mobile workspace](screenshots/mobile-workspace.png)

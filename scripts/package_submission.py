@@ -7,8 +7,13 @@ from zipfile import ZIP_DEFLATED, ZipFile
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_FILES = {
     "AGENTS.md", "SPEC.md", "PROGRESS.md", "DECISIONS.md", "README.md",
-    "Dockerfile", "docker-compose.yml", ".dockerignore", ".env.example", ".gitignore",
+    "Dockerfile", "Dockerfile.hosted", "Dockerfile.hosted.dockerignore", "render.yaml",
+    "docker-compose.yml", ".dockerignore", ".env.example", ".gitignore",
     "pyproject.toml", "requirements.runtime.lock",
+}
+ATTRIBUTION_FILES = {
+    "LICENSE", "LICENSE.md", "LICENSE.txt", "LICENCE", "COPYING",
+    "NOTICE", "NOTICE.md", "ATTRIBUTION", "ATTRIBUTION.md",
 }
 FRONTEND_FILES = {
     ".env.example", ".dockerignore", "Dockerfile", "package.json", "package-lock.json",
@@ -35,6 +40,7 @@ def select():
     files = {ROOT / name for name in ROOT_FILES} | {
         ROOT / "frontend" / name for name in FRONTEND_FILES
     }
+    files.update(ROOT / name for name in ATTRIBUTION_FILES if (ROOT / name).is_file())
     for directory, suffixes in RULES.items():
         for file in (ROOT / directory).rglob("*"):
             if file.suffix in suffixes and file.is_file() and "__pycache__" not in file.parts:
